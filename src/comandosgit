@@ -1,0 +1,3 @@
+git status -> para ver cambios
+git add -A -> agregar folders o cambios
+git commit -> subir los cambios / registralos
