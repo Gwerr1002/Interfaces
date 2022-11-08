@@ -1,0 +1,27 @@
+'''
+numeros = {
+    'cero': (1<<a)|(1<<b)|(1<<c)|(1<<d)|(1<<e)|(1<<f),
+    'uno': (1<<b)|(1<<c),
+    'dos': (1<<a)|(1<<b)|(1<<g)|(1<<e)|(1<<d),
+    'tres': (1<<a)|(1<<b)|(1<<g)|(1<<c)|(1<<d),
+    'cuatro': (1<<b)|(1<<c)|(1<<g)|(1<<f),
+    'cinco': (1<<a)|(1<<f)|(1<<g),
+    'seis': (1<<a)|(1<<b)|(1<<c)|(1<<d)|(1<<e)|(1<<g),
+    'siete': (1<<a)|(1<<b)|(1<<c),
+    'ocho': (1<<a)|(1<<b)|(1<<c)|(1<<d)|(1<<e)|(1<<f)|(1<<g),
+    'nueve': (1<<a)|(1<<b)|(1<<c)|(1<<f)|(1<<g),
+}
+'''
+
+numeros = [
+    ~corrimientos(a,b,c,d,e,f),
+    ~corrimientos(b,c),
+    ~corrimientos(a,b,g,e,d),
+    ~corrimientos(a,b,g,c,d),
+    ~corrimientos(b,c,g,f),
+    ~corrimientos(a,f,g,c,d),
+    ~corrimientos(a,b,c,d,e,g),
+    ~corrimientos(a,b,c),
+    ~corrimientos(a,b,c,d,e,f,g),
+    ~corrimientos(a,b,c,d,f,g)
+]
