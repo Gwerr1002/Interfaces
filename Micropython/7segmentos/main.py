@@ -1,7 +1,8 @@
 #No acceso al 14 y 16
-from machine import Pin, mem32
+from machine import (Pin as PIN, mem32)
 from time import sleep
-a,b,c,d,e,f,g = 0,1,2,3,4,5,6 #pines
+a,b,c,d,e,f,g = 12,13,14,15,16,17,18 #pines
+A,B,C,D,E,F,G=PIN(a,PIN.OUT),PIN(b,PIN.OUT),PIN(c,PIN.OUT),PIN(d,PIN.OUT),PIN(e,PIN.OUT),PIN(f,PIN.OUT),PIN(g,PIN.OUT)
 GPIO_OUT_REG = 0x3FF44004
 
 def corrimientos(*args):
@@ -10,22 +11,23 @@ def corrimientos(*args):
         bin |= 1 << arg
     return bin
 
-numeros = {
-    'cero': (1<<a)|(1<<b)|(1<<c)|(1<<d)|(1<<e)|(1<<f),
-    'uno': (1<<b)|(1<<c),
-    'dos': (1<<a)|(1<<b)|(1<<g)|(1<<e)|(1<<d),
-    'tres': (1<<a)|(1<<b)|(1<<g)|(1<<c)|(1<<d),
-    'cuatro': (1<<b)|(1<<c)|(1<<g)|(1<<f),
-    'cinco': (1<<a)|(1<<f)|(1<<g),
-    'seis': (1<<a)|(1<<b)|(1<<c)|(1<<d)|(1<<e)|(1<<g),
-    'siete': (1<<a)|(1<<b)|(1<<c),
-    'ocho': (1<<a)|(1<<b)|(1<<c)|(1<<d)|(1<<e)|(1<<f)|(1<<g),
-    'nueve': (1<<a)|(1<<b)|(1<<c)|(1<<f)|(1<<g),
-}
+numeros = [
+    ~corrimientos(a,b,c,d,e,f), #0
+    ~corrimientos(b,c), #1
+    ~corrimientos(a,b,g,e,d), #2
+    ~corrimientos(a,b,g,c,d), #3
+    ~corrimientos(b,c,g,f), #4
+    ~corrimientos(a,f,g,c,d), #5
+    ~corrimientos(a,f,c,d,e,g), #6
+    ~corrimientos(a,b,c),
+    ~corrimientos(a,b,c,d,e,f,g),
+    ~corrimientos(a,b,c,d,f,g)
+]
 
 print("ready")
 
 while True:
-    for key in numeros:
-        mem32[GPIO_OUT_REG] = numeros[key]
-        sleep(1)
+    for num in numeros:
+        mem32[GPIO_OUT_REG] = num
+        print(num)
+        sleep(.5)
