@@ -5,7 +5,7 @@ my_SDA_pin = 21  # I2C SDA pin number here!
 my_SCL_pin = 22  # I2C SCL pin number here!
 my_i2c_freq = 400000  # I2C frequency (Hz) here!
 
-i2c = I2C(sda=Pin(my_SDA_pin),
+i2c = I2C(1,sda=Pin(my_SDA_pin),
               scl=Pin(my_SCL_pin),
               freq=my_i2c_freq)
 
@@ -15,7 +15,7 @@ sensor = MAX30102(i2c=i2c)
 #sensor.setup_sensor()
 
 # Alternative example:
-sensor.setup_sensor(led_mode=2, adc_range=16384, sample_rate=400)
+sensor.setup_sensor(led_mode=2, adc_range=16384, sample_rate=400,)
 
 # Set the number of samples to be averaged by the chip
 SAMPLE_AVG = 8  # Options: 1, 2, 4, 8, 16, 32
