@@ -33,8 +33,13 @@ sensor.set_active_leds_amplitude(LED_POWER)
 
 oled.fill(0)
 oled.show()
-oled.text("red:",0,0)
-oled.text("ir:",0,10)
+oled.text("red_p:",0,0)
+oled.text("ir_p:",0,10)
+oled.text("g_p:",0,20)
+oled.text("red_g:",0,30)
+oled.text("ir_g:",0,40)
+oled.text("g_g:",0,50)
+oled.show()
 
 sleep(1)
 
@@ -44,12 +49,14 @@ while True:
     # Check if the storage contains available samples
     if (sensor.available()):
         # Access the storage FIFO and gather the readings (integers)
-        red_sample = sensor.pop_red_from_storage()
-        ir_sample = sensor.pop_ir_from_storage()
         oled.fill_rect(40, 0, 64, 64, 0)
         oled.show()
-        oled.text(f"{red_sample}",40,0)
-        oled.text(f"{ir_sample}",40,10)
+        oled.text(f"{sensor.pop_red_from_storage()}",45,0)
+        oled.text(f"{sensor.pop_ir_from_storage()}",45,10)
+        oled.text(f"{sensor.pop_green_from_storage()}",45,20)
+        #oled.text(f"{sensor.get_red()}",45,30)
+        #oled.text(f"{sensor.get_ir()}",45,40)
+        #oled.text(f"{sensor.get_green()}",45,50)
         oled.show()
         
         
