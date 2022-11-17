@@ -39,17 +39,20 @@ oled.text("ir:",0,10)
 sleep(1)
 
 while True:
-    sleep(1)
+    #sleep(1)
     sensor.check()
     # Check if the storage contains available samples
     if (sensor.available()):
         # Access the storage FIFO and gather the readings (integers)
         red_sample = sensor.pop_red_from_storage()
         ir_sample = sensor.pop_ir_from_storage()
+        '''
         oled.fill_rect(40, 0, 64, 64, 0)
         oled.show()
         oled.text(f"{red_sample}",40,0)
         oled.text(f"{ir_sample}",40,10)
         oled.show()
+        '''
+        print(ir_sample)
         
         
