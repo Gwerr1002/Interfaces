@@ -49,7 +49,7 @@ while True:
     # Check if the storage contains available samples
     if (sensor.available()):
         # Access the storage FIFO and gather the readings (integers)
-<<<<<<< HEAD
+
         red_sample = sensor.pop_red_from_storage()
         ir_sample = sensor.pop_ir_from_storage()
         '''
@@ -64,6 +64,7 @@ while True:
         #oled.text(f"{sensor.get_ir()}",45,40)
         #oled.text(f"{sensor.get_green()}",45,50)
         oled.show()
+<<<<<<< HEAD
         '''
         print(ir_sample)
         
