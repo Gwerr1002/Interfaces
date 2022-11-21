@@ -45,12 +45,12 @@ def config():
 
     sleep(1)
 
-    # The readTemperature() method allows to extract the die temperature in °C    
+    # The readTemperature() method allows to extract the die temperature in °C
     print("Reading temperature in °C.", '\n')
     print(sensor.read_temperature())
 
     # Select whether to compute the acquisition frequency or not
-    compute_frequency = True
+    compute_frequency = False
 
     print("Starting data acquisition from RED & IR registers...", '\n')
     sleep(1)
@@ -58,40 +58,52 @@ def config():
     return sensor ,oled, i2c
 
 def main():
-    
+
     compute_frequency = False
     t_start = ticks_us()  # Starting time of the acquisition
     samples_n = 0  # Number of samples that have been collected
-    
+
     sensor,oled,i2c = config()
     s = Stack_frec()
     lpm = 0
+    aux = 0
+    m = 54/2000
+    minimo = 17000
     while True:
         # The check() method has to be continuously polled, to check if
         # there are new readings into the sensor's FIFO queue. When new
         # readings are available, this function will put them into the storage.
         sensor.check()
         oled.fill_rect(0,0,128,15,0)
-        oled.text(f"lpm: {lpm:.2}",0,0)
-        
+        oled.text(f"lpm:{int(lpm)}",0,0)
+
         # Check if the storage contains available samples
         if sensor.available():
             # Access the storage FIFO and gather the readings (integers)
             red_reading = sensor.pop_red_from_storage()
             #ir_reading = sensor.pop_ir_from_storage()
-
-            # Print the acquired data (so that it can be plotted with a Serial Plotter)
             print(red_reading)
-            red_reading = int(53*(red_reading-17000)/2000+20)
-            lpm = s.evaluate_sample(red_reading)
-            #print(lpm)
+            aux = s.evaluate_sample(red_reading)
+            # Print the acquired data (so that it can be plotted with a Serial Plotter)
+            #red_reading = 53*(red_reading-17000)/2000+20
+            red_reading = m*(red_reading - minimo) + 30
+            #print(red_reading)
+            #
+            red_reading = int(red_reading)
+            if lpm != aux:
+                lpm = aux
+                oled.text("*",0,58)
+                #print(s.max,s.min)
+                #print(lpm)
+                minimo = s.min
+                m = 50/(4*(s.max-s.min))
             for i in range(3):
                 oled.pixel(0,red_reading-i,1)
             oled.show()
             oled.scroll(1,0)
             for i in range(3):
                 oled.pixel(0,red_reading-i,0)
-                
+
             if compute_frequency:
                 if ticks_diff(ticks_us(), t_start) >= 999999:
                     f_HZ = samples_n

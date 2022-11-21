@@ -1,6 +1,5 @@
 import matplotlib.pyplot as plt
 import numpy as np
-from threading import Thread
 
 with open("adq2.txt",'r') as file:
     d1,d2=[],[]
@@ -13,7 +12,8 @@ with open("adq2.txt",'r') as file:
         d1 = [int(a) for a in d1]
         d2 = [int(a) for a in d2]
 
-d1_1 = 53*(np.array(d1)-17000)/2000+20
+d1_1 = -53*(np.array(d1)-17000)/2000+20
+d1_1_1 = -53*(np.array(d1)-17000)/2000+40
 d2_2 = 53*(np.array(d2)-17000)/2000+40
 
 def graf(*args):
@@ -22,7 +22,13 @@ def graf(*args):
         plt.plot(arg)
     plt.show()
 info = ""
-for i in d1_1.astype(int):
+for i in d1_1.astype(int)[::20]:
     info+=f"{i},"
 print(info)
-graf(d1_1.astype(int)[::10])
+#graf(d1_1.astype(int))
+graf(d1_1)
+#graf(d1)
+i = 10
+t = np.linspace(0,len(d1_1)/27,len(d1_1))
+plt.figure()
+plt.plot(t[::i],d1_1[::i])

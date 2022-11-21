@@ -52,9 +52,6 @@ while True:
 
         red_sample = sensor.pop_red_from_storage()
         ir_sample = sensor.pop_ir_from_storage()
-        '''
-=======
->>>>>>> f0adc99ab9f8f7befd8afc47ad156a8d99ff6955
         oled.fill_rect(40, 0, 64, 64, 0)
         oled.show()
         oled.text(f"{sensor.pop_red_from_storage()}",45,0)
@@ -64,8 +61,7 @@ while True:
         #oled.text(f"{sensor.get_ir()}",45,40)
         #oled.text(f"{sensor.get_green()}",45,50)
         oled.show()
-<<<<<<< HEAD
-        '''
+
         print(ir_sample)
         
         
