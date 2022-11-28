@@ -92,17 +92,18 @@ def main():
             red_reading = int(red_reading)
             if lpm != aux:
                 lpm = aux
-                oled.text("*",0,58)
+                oled.pixel(127,63,1)
                 #print(s.max,s.min)
                 #print(lpm)
                 minimo = s.min
                 m = 50/(4*(s.max-s.min))
             for i in range(3):
-                oled.pixel(0,red_reading-i,1)
+                oled.pixel(127,red_reading-i,1)
             oled.show()
-            oled.scroll(1,0)
+            oled.scroll(-1,0)
+            oled.pixel(127,63,0)
             for i in range(3):
-                oled.pixel(0,red_reading-i,0)
+                oled.pixel(127,red_reading-i,0)
 
             if compute_frequency:
                 if ticks_diff(ticks_us(), t_start) >= 999999:
