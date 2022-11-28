@@ -6,11 +6,13 @@ import uasyncio
 from _thread import start_new_thread
 
 T = 0
+ans = 0
 
 #Configuracion del oled y sensor
 def config():
     i2c = I2C(1,sda=Pin(21), scl=Pin(22), freq=400000) #Instancia I2C por hardware
     oled = SSD1306_I2C(128, 64, i2c) #instancia del oled
+    oled.contrast(1)#el menor contraste
     sensor = MAX30102(i2c=i2c)  #instancia del sensor
     #
     # Escanear el bus I2C para asegurarse que el sensor esta conectado.
@@ -37,19 +39,33 @@ def config():
 
 #Método para mostrar datos en el OLED
 def update_oled(oled,red_reading,lpm):
-    global T
+    global T, ans
     oled.fill_rect(0,0,128,15,0) #Borra una sección rectangular del OLED
     oled.text(f"lpm:{int(lpm)}",0,0) #Escribe frecuencia cardiaca
     oled.text(f"T:{int(T)}",63,0) #Escribe temperatura
     #Muestra el dato actual en pantalla con un ancho de linea de 5 pixeles
-    for i in range(-2,3,1):
+    '''
+    for i in range(-4,0,1):
         oled.pixel(126,red_reading-i,1)
+    '''
+    if ans-red_reading > 0:
+        signo = 1
+    else:
+        signo = -1
+    for i in range(2):
+        for j in range(3):
+            oled.vline(125+j,red_reading+i*signo,64-red_reading+i*signo,1)
     oled.show()#Muestra los datos en pantalla
-    oled.scroll(-2,0)#Recorre la información del OLED dos pixeles a la izquierda
-    #Las siguientes 3 lineas borran los datos anteriores para no acarrearlos
-    oled.pixel(123,63,0)
-    for i in range(-2,3,1):
+    oled.scroll(-3,0)#Recorre la información del OLED dos pixeles a la izquierda
+    #Las siguientes lineas borran los datos anteriores para no acarrearlos
+    '''
+    for i in range(-4,0,1):
         oled.pixel(126,red_reading-i,0)
+    '''
+    for i in range(2):
+        for j in range(3):
+            oled.vline(125+j,red_reading+i*signo,64-red_reading+i*signo,0)
+    ans = red_reading
 
 async def adq_signal(sensor,oled,lec_adqfreq):
     lpm = 0 #para guardar la frecuencia cardiaca
@@ -72,7 +88,6 @@ async def adq_signal(sensor,oled,lec_adqfreq):
             if lpm != aux:
                 lpm = aux
                 lec_adqfreq.on() #Encender el aviso de detección de pico (buzzer)
-                oled.pixel(123,63,1) #muestra un punto en la detección de un mínimo
                 minimo = s.min #Actualizar minimo
                 amplitud = s.max-s.min
                 if amplitud > 0:
