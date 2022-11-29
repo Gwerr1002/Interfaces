@@ -3,7 +3,7 @@ from obj_ox  import (config, Pin,
                      uasyncio, temperatura)
 #
 def main():
-    pin_bpm = Pin(26, Pin.OUT) #Salida para activar el buzzer
+    pin_bpm = Pin(26, Pin.OUT) #Salida para activar el buzzer activo
     sensor, oled, i2c = config() #Configuración del sensor y OLED
     loop = uasyncio.get_event_loop() #Crear bucle
     #Tarea para adquirir señal, medir frecuencia cardiaca y mostrar datos en OLED

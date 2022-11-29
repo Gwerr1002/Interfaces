@@ -10,7 +10,7 @@ class Stack_frec():
         self.lpm = 0 #frecuencia cardiaca
         #
     def evaluate_sample(self,sample):
-        if self._resample < 2: #Condición para realizar remuestreo
+        if self._resample < 3: #Condición para realizar remuestreo
             self._resample +=1
         else: #Lógica para detectar max, min y medir lpm
             self._resample = 0 #reinicio remuestreo
