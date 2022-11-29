@@ -26,9 +26,10 @@ for i in d1_1.astype(int)[::20]:
     info+=f"{i},"
 print(info)
 #graf(d1_1.astype(int))
-graf(d1_1)
+#graf(d1_1)
 #graf(d1)
 i = 10
 t = np.linspace(0,len(d1_1)/27,len(d1_1))
 plt.figure()
-plt.plot(t[::i],d1_1[::i])
+plt.plot(t,d1_1)
+plt.show()
