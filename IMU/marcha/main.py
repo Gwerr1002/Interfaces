@@ -1,5 +1,5 @@
 from machine import Pin, I2C
-import uasyncio
+#import uasyncio
 from time import sleep
 import bluetooth
 from time import sleep
@@ -14,7 +14,18 @@ def config():
     return imu, p
 
 def main():
-    pass
+    imu, p = config()
+    while True:
+        if p.is_connected():
+            ax=imu.accel.x
+            ay=imu.accel.y
+            az=imu.accel.z
+            gx=imu.gyro.x
+            gy=imu.gyro.y
+            gz=imu.gyro.z
+            data = f"{ax} {ay} {az} {gx} {gy} {gz}" + "_"
+            p.send(data)
+        sleep()
 
 if __name__=="__main__":
     main()
