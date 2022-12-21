@@ -31,7 +31,7 @@ _UART_SERVICE = (
     (_UART_TX, _UART_RX),
 )
 
-_DEV_NAME = "GERA"
+_DEV_NAME = "GERA1"
 
 class BLE_send_sequence:
     def __init__(self, ble, name=_DEV_NAME):
