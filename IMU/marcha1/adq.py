@@ -8,7 +8,6 @@ Created on Sat Dec 31 12:05:55 2022
 from numpy import array, load, save, linspace
 from time import time,sleep
 from matplotlib.pyplot import figure, subplots, ylim, xlim, show
-from matplotlib.animation import FuncAnimation
 
 "Frecuencia de muestreo 31Hz"
 
@@ -33,7 +32,7 @@ IIR8 = [([5.463843325435465, 10.92768665087093, 5.463843325435465], [11.60544772
 ([2.5590091112257354, 5.118018222451471, 2.5590091112257354], [11.72929948709161, -2.8819817775485292, 1.3887187353598613])
 ]
 
-class adq_save():
+class Adq_save():
     def __init__(self):
         self.dev1 = {'ax':[], 'ay':[], 'az':[], 'gx':[], 'gy':[], 'gz':[]}
         self.dev2 = {'ax':[], 'ay':[], 'az':[], 'gx':[], 'gy':[], 'gz':[]}
@@ -61,7 +60,7 @@ class adq_save():
                     print(dev)
                     
 class graf():
-    def __init__(self, data1, data2):
+    def __init__(self):
         self.fig, self.ax = subplots(2,1, figsize=(13, 6), layout='constrained')
         self.h1, = self.ax[0].plot([],[])
         self.ax[0].set_title("Pierna izquierda (1 gy)")

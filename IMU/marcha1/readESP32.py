@@ -16,7 +16,7 @@ dataFlag = False
 AS = adq_save()
 d1_connected = False
 d2_connected = False
-g = graf([],[])
+#g = graf([],[])
 c_address = ""
 to1=float()
 to2=float()
@@ -27,7 +27,7 @@ def notification_handler(sender, data):
     global dataFlag, c_address, AS, g
     #print(f"{c_address}: {data}")
     AS.decode(data, c_address)
-    Thread(target=g.update_graf,args=(AS.dev1['ay'], AS.dev2['ay'],)).start()
+    #Thread(target=g.update_graf,args=(AS.dev1['ay'], AS.dev2['ay'],)).start()
     dataFlag = True
 
 async def connect_device1(address, loop):
@@ -57,7 +57,6 @@ async def connect_device2(address, loop):
         x = await client.is_connected()
         print(f"Connected: {address}")
         to2 = time()
-        g.set_desfase(to2-to1)
         #wait for data to be sent from client
         await client.start_notify(UART_RX_UUID, notification_handler)
         while True :
@@ -88,7 +87,6 @@ if __name__ == "__main__":
     loop = asyncio.get_event_loop()
     loop.create_task(connect_device1(address1, loop))
     loop.create_task(connect_device2(address2, loop))
-    show()
     try:
         loop.run_forever()
     except KeyboardInterrupt:
