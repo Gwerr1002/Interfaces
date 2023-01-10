@@ -10,13 +10,14 @@ import scipy.signal as sp
 import matplotlib.pyplot as plt
 
 #%%
-data = np.load("caida1.npy",allow_pickle=True)
+data = np.load("caida2.npy",allow_pickle=True)
 d = data.item()
-t = np.linspace(0,len(d['ay'])/24,len(d['ay']))
+t = np.linspace(0,len(d['ay'])/d['fs'],len(d['ay']))
 
 fig,ax=plt.subplots(6,1)
 
 for i,key in zip(range(6),d.keys()):
     ax[i].plot(t,d[key],label=key)
-    
-plt.legend()
+    ax[i].legend()
+    for j in range(0,70,10):
+        ax[i].axvline(i)
