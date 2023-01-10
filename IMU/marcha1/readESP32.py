@@ -6,14 +6,14 @@ from bleak import BleakClient
 from bleak import _logger as logger
 from bleak.uuids import uuid16_dict
 
-from adq import adq_save, time, graf, show, sleep
+from adq import Adq_save, time, graf, show, sleep
 from threading import Thread
 
 UART_TX_UUID = "6e400002-b5a3-f393-e0a9-e50e24dcca9e" #Nordic NUS characteristic for TX
 UART_RX_UUID = "6e400003-b5a3-f393-e0a9-e50e24dcca9e" #Nordic NUS characteristic for RX
 
 dataFlag = False
-AS = adq_save()
+AS = Adq_save()
 d1_connected = False
 d2_connected = False
 #g = graf([],[])
