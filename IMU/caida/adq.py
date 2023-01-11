@@ -17,7 +17,6 @@ class Adq_save():
         
         self.par_inf = {'ax': -1.0475, 'ay': -0.377, 'az': -0.3005, 'gx': -43.6530, 'gy': -22.846, 'gz': -21.776}
         self.par_sup = {'ax': -0.8115, 'ay': 0.279, 'az': 0.3675, 'gx': 59.523, 'gy': 24.602, 'gz': 22.7155}
-        self.count_n = 0
     
     def s_device(self):
         self.dev['fs'] = self.fs
@@ -26,20 +25,25 @@ class Adq_save():
     def decode(self, data):
         data = data.decode()
         data = data.split(',')[:-1]
-        self.count_n += len(data)
         data = [i.split() for i in data]
         #
         for arreglo in data:
             for num,key in zip(arreglo,self.dev.keys()):
                 self.dev[key].append(float(num))
         #
-        if self.count_n == self.fs:
-            self.count_n = 0
+        if len(self.dev['ax'])>=self.fs:
             self.caida()
                 
     def caida(self):
-        window = {key : self.dev[key][:-self.fs] for key in self.dev}
+        window = {key : self.dev[key][-self.fs:] for key in self.dev}
         q2 = {key : quantile(window[key],.5) for key in window}
+        si = [True if (q2[key] > self.par_sup[key] or q2[key] < self.par_inf[key]) else False for key in q2]
+        #print(si)
+        verdad = si[0] and si[2]
+        if verdad:
+            print("Se ha detectado una caída")
+            
+            
         
     
 #bytearray(b'0.1044922 1.002441 0.06005859 4.198473 0.9923664 -0.1374046,0.1018066 0.984375 0.05981445 4.816794 0.870229 -0.389313,0.1018066 0.9978027 0.06640625 5.862596 0.3206107 -0.2290076,')
